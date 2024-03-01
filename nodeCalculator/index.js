@@ -1,10 +1,19 @@
 // using terminal to design a calculator that can interact with the user
+const { parse } = require('path');
 const readline = require('readline');   
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
 });
+
+// multiply and divide have higher precedence than add and subtract
+const precedence = {
+    '+': 1,
+    '-': 1,
+    '*': 2,
+    '/': 2,
+};
 
 
 // function for operator that can be used in the calculator
@@ -27,7 +36,7 @@ const CalResult = (op,a,b) => {
 
 
 
-// Function to calculate the sum of two numbers
+// function to calculate the result
 const cal = (answer) => {
     //1. catogorize the input as operators and operands
         //1.1 声明变量名 
@@ -35,31 +44,39 @@ const cal = (answer) => {
         const operands = [];
         //1.2 拆分字符串
         const tokens = answer.match(/\d+|\S/g);
+        console.log(tokens);
         //1.3 遍历字符串， 识别数字和运算符，存入数组
-        for (let i = 0; i < tokens.length; i++) {
-            //first check if the token is a number or an operator
-            if (tokens[i] === '+' || tokens[i] === '-' || tokens[i] === '*' || tokens[i] === '/') {
-                operators.push(tokens[i]);
-
-            } else {
-                operands.push(tokens[i]);
+       for (let i = 0; i < tokens.length; i++) {
+            const token = tokens[i];
+            console.log(token);
+            //if token is a number, push it to the operands array
+            if (!isNaN(parseInt(token))) {
+                operands.push(parseInt(token));
+                console.log(operands);
+            }
+            else {
+                //if token is an operator, push it to the operators array
+                if(operators.length === 0 && operands.length <2) {
+                    operators.push(token);
+                    continue;
+                }
+                const operator = operators.pop();
+                const a = operands.pop();
+                const b = operands.pop();
+                CalResult(operator, a, b);
             }
         }
 
-        return console.log(tokens, operators,operands);
+        
     //2. calculate the result
-        //when operator is empty, return "Undifined"
-        if (operators.length === 0) {
-            return "Undifined";
-        }
+        
         
         //when operators array is more than one operators, keep calculating the result
         while (operators.length > 0) {
-            const op = operators.shift();
-            const a = operands.shift();
-            const b = operands.shift();
-            const result = CalResult(op, parseInt(a), parseInt(b));
-            operands.unshift(result);
+            const op = operators.pop();
+            const a = operands.pop();
+            const b = operands.pop();
+            return CalResult(op, a, b);
         }
 }
 
