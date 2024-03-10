@@ -1,0 +1,16 @@
+LMS
+
+
+CMS
+    Teacher
+    Student
+    course　
+
+The Difference between LMS and the CMS is level of authorisation. In CMS, we don't treat them as different level of authorisation. 
+
+
+ERD ()
+ 1. https://www.mongodb.com/docs/relational-migrator/diagrams/understand-diagrams/#:~:text=This%20page%20explains%20how%20to,between%20entities%20in%20your%20databases.
+ 2. hackolade (website)
+ 3. Moon modeler
+ 4. Draw.io
